@@ -3,10 +3,10 @@ export default function Home() {
     <main className="flex h-screen justify-center items-center">
       <div className="w-[402px] h-[469px] shadow-xl rounded-2xl bg-white">
         <div className="m-6 flex flex-col gap-5">
-          <h2 className="text-center font-semibold text-xl text-gray-600">
+          <h2 className="text-center text-xl text-gray-600">
             Upload your image
           </h2>
-          <p className="text-center text-gray-500">
+          <p className="text-center text-gray-500 text-sm">
             File should be jpeg, png...
           </p>
 
@@ -108,7 +108,9 @@ export default function Home() {
                 fill="#CCCCCC"
               />
             </svg>
-            <p className="text-gray-400 mb-8">Drag & Drop your image here</p>
+            <p className="text-gray-400 mb-8 font-extralight">
+              Drag & Drop your image here
+            </p>
           </div>
 
           <p className="text-gray-400 text-center">Or</p>

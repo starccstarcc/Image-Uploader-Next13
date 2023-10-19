@@ -134,15 +134,19 @@ export default function Home() {
 
           <p className="text-gray-400 text-center">Or</p>
 
-          <div className="flex justify-center w-full">
-            <button
-              type="button"
-              onClick={(e) => handleClick(e)}
-              className="bg-blue-500 text-white rounded-xl px-4 py-2"
-            >
+          <label
+            htmlFor="drop"
+            className="bg-transparent text-center"
+          >
+            <input
+              type="file"
+              className="hidden"
+              id="drop"
+            />
+            <p className="bg-blue-500 inline px-4 py-2 cursor-pointer rounded-xl text-white">
               Choose a file
-            </button>
-          </div>
+            </p>
+          </label>
         </div>
       </div>
     </main>

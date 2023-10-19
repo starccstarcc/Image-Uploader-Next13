@@ -1,4 +1,20 @@
+"use client";
+
+import { useState, useRef } from "react";
+
 export default function Home() {
+  const [pending, setPending] = useState(false);
+  const drop = useRef();
+
+  const handleDrop = (e: any) => {
+    e.preventDefault();
+  };
+
+  const handleClick = (e: any) => {
+    e.preventDefault();
+    //TODO: choose a file from directory
+  };
+
   return (
     <main className="flex h-screen justify-center items-center">
       <div className="w-[402px] h-[469px] shadow-xl rounded-2xl bg-white">
@@ -10,7 +26,10 @@ export default function Home() {
             File should be jpeg, png...
           </p>
 
-          <div className="bg-[#F6F8FB] rounded-2xl border-2 border-dashed border-blue-300 flex flex-col items-center gap-8">
+          <div
+            className="bg-[#F6F8FB] rounded-2xl border-2 border-dashed border-blue-300 flex flex-col items-center gap-8"
+            onDrop={(e) => handleDrop(e)}
+          >
             <svg
               width="115"
               height="90"
@@ -118,6 +137,7 @@ export default function Home() {
           <div className="flex justify-center w-full">
             <button
               type="button"
+              onClick={(e) => handleClick(e)}
               className="bg-blue-500 text-white rounded-xl px-4 py-2"
             >
               Choose a file

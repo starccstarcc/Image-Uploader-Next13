@@ -8,7 +8,7 @@ import Uploading from "@/components/Uploading";
 
 export default function Home() {
   const [files, setFiles] = useState<File[]>([]);
-  const [isUploading, setIsUploading] = useState<boolean>(true);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
   const [isUploaded, setIsUploaded] = useState<boolean>(false);
 
   const { startUpload } = useUploadThing("imageUploader", {
@@ -26,6 +26,7 @@ export default function Home() {
   const onDrop = useCallback(
     async (acceptedFiles: FileWithPath[]) => {
       setFiles(acceptedFiles);
+      setIsUploading(true);
       const res = await startUpload(files);
       console.log(res?.[0].url);
     },
@@ -44,6 +45,8 @@ export default function Home() {
 
       if (!file.type.includes("image"))
         return window.alert("Please upload image file");
+
+      setIsUploading(true);
 
       const imgRes = await startUpload(files);
 
@@ -181,7 +184,7 @@ export default function Home() {
                 accept="image/*"
                 className="hidden"
                 id="drop"
-                onChange={async (e) => handleFileChange(e)}
+                onChange={(e) => handleFileChange(e)}
               />
               <p className="bg-blue-500 inline px-4 py-2 cursor-pointer rounded-xl text-white">
                 Choose a file

@@ -5,11 +5,13 @@ import type { FileWithPath } from "@uploadthing/react";
 import { useUploadThing } from "@/lib/uploadthing";
 import { useDropzone } from "@uploadthing/react/hooks";
 import Uploading from "@/components/Uploading";
+import Uploaded from "@/components/Uploaded";
 
 export default function Home() {
   const [files, setFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState<boolean>(false);
-  const [isUploaded, setIsUploaded] = useState<boolean>(false);
+  const [isUploaded, setIsUploaded] = useState<boolean>(true);
+  const [imgUrl, setImgUrl] = useState<string>("");
 
   const { startUpload } = useUploadThing("imageUploader", {
     onClientUploadComplete: () => {
@@ -29,6 +31,7 @@ export default function Home() {
       setIsUploading(true);
       const res = await startUpload(files);
       console.log(res?.[0].url);
+      setImgUrl(res?.[0].url as string);
     },
     [files, startUpload]
   );
@@ -48,15 +51,16 @@ export default function Home() {
 
       setIsUploading(true);
 
-      const imgRes = await startUpload(files);
+      const res = await startUpload(files);
 
-      console.log(imgRes?.[0].url);
+      console.log(res?.[0].url);
+      setImgUrl(res?.[0].url as string);
     }
   };
 
   return (
     <main className="flex h-screen justify-center items-center">
-      {isUploaded === false && isUploading === false && (
+      {!isUploaded && !isUploading && (
         <div className="w-[402px] h-[469px] shadow-xl rounded-2xl bg-white">
           <div className="m-6 flex flex-col gap-5">
             <h2 className="text-center text-xl text-gray-600">
@@ -193,7 +197,8 @@ export default function Home() {
           </div>
         </div>
       )}
-      {isUploading && <Uploading />}
+      {isUploading && !isUploaded && <Uploading />}
+      {isUploaded && !isUploading && <Uploaded imgUrl={imgUrl} />}
     </main>
   );
 }

@@ -10,18 +10,14 @@ import Uploaded from "@/components/Uploaded";
 export default function Home() {
   const [files, setFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState<boolean>(false);
-  const [isUploaded, setIsUploaded] = useState<boolean>(true);
+  const [isUploaded, setIsUploaded] = useState<boolean>(false);
   const [imgUrl, setImgUrl] = useState<string>("");
 
   const { startUpload } = useUploadThing("imageUploader", {
-    onClientUploadComplete: () => {
-      alert("uploaded successfully!");
-    },
     onUploadError: () => {
       alert("error occurred while uploading");
-    },
-    onUploadBegin: () => {
-      alert("upload has begun");
+      setIsUploaded(false);
+      setIsUploading(false);
     },
   });
 
@@ -30,7 +26,7 @@ export default function Home() {
       setFiles(acceptedFiles);
       setIsUploading(true);
 
-      const res = await startUpload(files);
+      const res = await startUpload(acceptedFiles);
 
       console.log(res?.[0].url);
       setImgUrl(res?.[0].url as string);
@@ -38,33 +34,38 @@ export default function Home() {
       setIsUploading(false);
       setIsUploaded(true);
     },
-    [files, startUpload]
+    [startUpload]
   );
 
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+  const uploadImg = async (image: File[]) => {
+    setIsUploading(true);
+    setFiles(image);
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
+    const res = await startUpload(image);
 
-    if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files?.[0];
-
-      setFiles(Array.from(e.target.files));
-
-      if (!file.type.includes("image"))
-        return window.alert("Please upload image file");
-
-      setIsUploading(true);
-
-      const res = await startUpload(files);
-
-      console.log(res?.[0].url);
-      setImgUrl(res?.[0].url as string);
+    if (res && res[0] && res[0].url) {
+      setImgUrl(res?.[0].url);
 
       setIsUploading(false);
       setIsUploaded(true);
     }
   };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      console.log("file: ", file);
+
+      if (!file.type.includes("image"))
+        return window.alert("Please upload image file");
+
+      await uploadImg([file]);
+    }
+  };
+
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   return (
     <main className="flex h-screen justify-center items-center">

@@ -23,6 +23,16 @@ export default function Uploaded({ imgUrl }: { imgUrl: string }) {
           src={imgUrl}
           alt="image uploaded"
         />
+
+        <div className="flex bg-gray-50 border rounded-lg w-[338px] h-[34px]">
+          <input
+            type="text"
+            value={imgUrl}
+            autoComplete={imgUrl}
+            className="bg-transparent"
+          />
+          <button>Copy Link</button>
+        </div>
       </div>
     </div>
   );

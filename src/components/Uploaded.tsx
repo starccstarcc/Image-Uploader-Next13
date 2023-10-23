@@ -1,6 +1,26 @@
+"use client";
+
 import Image from "next/image";
+import { useRef } from "react";
 
 export default function Uploaded({ imgUrl }: { imgUrl: string }) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleCopy = () => {
+    const selectedText = inputRef?.current?.value;
+
+    if (!selectedText) return;
+
+    navigator.clipboard
+      .writeText(selectedText)
+      .then(() => {
+        console.log("copiado");
+      })
+      .catch(() => {
+        console.log("error");
+      });
+  };
+
   return (
     <div className="w-[400.36px] h-[454.96px] rounded-2xl shadow-xl bg-white">
       <div className="m-6 flex flex-col gap-5 items-center">
@@ -22,16 +42,28 @@ export default function Uploaded({ imgUrl }: { imgUrl: string }) {
         <Image
           src={imgUrl}
           alt="image uploaded"
+          className="w-[338px] h-[224.4px] rounded-xl"
+          width={400}
+          height={400}
         />
 
-        <div className="flex bg-gray-50 border rounded-lg w-[338px] h-[34px]">
+        <div className="flex bg-gray-50 border rounded-lg w-[338px] h-[34px] justify-between">
           <input
             type="text"
             value={imgUrl}
+            ref={inputRef}
+            readOnly
             autoComplete={imgUrl}
-            className="bg-transparent"
+            className="px-1 bg-transparent text-xs flex-auto text-ellipsis"
           />
-          <button>Copy Link</button>
+          <button
+            className="bg-blue-500 text-white rounded-xl"
+            onClick={() => {
+              handleCopy();
+            }}
+          >
+            <p className="text-xs px-3 py-2">Copy Link</p>
+          </button>
         </div>
       </div>
     </div>

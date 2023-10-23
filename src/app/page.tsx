@@ -29,9 +29,14 @@ export default function Home() {
     async (acceptedFiles: FileWithPath[]) => {
       setFiles(acceptedFiles);
       setIsUploading(true);
+
       const res = await startUpload(files);
+
       console.log(res?.[0].url);
       setImgUrl(res?.[0].url as string);
+
+      setIsUploading(false);
+      setIsUploaded(true);
     },
     [files, startUpload]
   );
@@ -55,6 +60,9 @@ export default function Home() {
 
       console.log(res?.[0].url);
       setImgUrl(res?.[0].url as string);
+
+      setIsUploading(false);
+      setIsUploaded(true);
     }
   };
 

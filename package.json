@@ -13,6 +13,7 @@
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
+    "react-hot-toast": "^2.4.1",
     "react-spinners": "^0.13.8",
     "uploadthing": "^5.7.1"
   },

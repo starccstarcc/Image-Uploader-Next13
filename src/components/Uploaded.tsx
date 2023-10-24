@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useRef } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Uploaded({ imgUrl }: { imgUrl: string }) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -14,10 +15,10 @@ export default function Uploaded({ imgUrl }: { imgUrl: string }) {
     navigator.clipboard
       .writeText(selectedText)
       .then(() => {
-        console.log("copiado");
+        toast.success("Copied", { duration: 1000 });
       })
       .catch(() => {
-        console.log("error");
+        toast.error("Error", { duration: 1000 });
       });
   };
 
@@ -54,16 +55,17 @@ export default function Uploaded({ imgUrl }: { imgUrl: string }) {
             ref={inputRef}
             readOnly
             autoComplete={imgUrl}
-            className="px-1 bg-transparent text-xs flex-auto text-ellipsis"
+            className="px-1 bg-transparent text-xs flex-auto text-ellipsis text-gray-500"
           />
           <button
-            className="bg-blue-500 text-white rounded-xl"
+            className="bg-blue-500 text-white rounded-lg"
             onClick={() => {
               handleCopy();
             }}
           >
             <p className="text-xs px-3 py-2">Copy Link</p>
           </button>
+          <Toaster />
         </div>
       </div>
     </div>

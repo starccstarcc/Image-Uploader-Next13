@@ -28,8 +28,13 @@ export default function RootLayout({
         <footer className={`flex justify-center mb-3 ${montserrat.className}`}>
           <p className="text-sm text-center text-gray-400">
             Created by{" "}
-            <span className="font-bold underline">Facundo Fernandez</span> -
-            devChallenges.io
+            <a
+              href="https://github.com/facundofernanddez"
+              target="_blank"
+            >
+              <span className="font-bold underline">Facundo Fernandez</span>
+            </a>{" "}
+            - devChallenges.io
           </p>
         </footer>
       </body>
